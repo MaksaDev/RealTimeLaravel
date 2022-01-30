@@ -40,6 +40,6 @@ class UserSessionChanged implements ShouldBroadcast
     {
         
        
-        return new Channel('notifications');
+        return new PrivateChannel('notifications');
     }
 }
