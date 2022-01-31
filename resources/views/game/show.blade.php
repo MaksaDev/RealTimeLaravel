@@ -41,7 +41,7 @@
                     <hr>
                     <div class="text-center">
                         <label class="font-weight-bold h5">Your Bet</label>
-                        <select class="custom-select col-auto">
+                        <select id = "bet" class="custom-select col-auto">
                             <option selected>Not in</option>
 
                             @foreach(range(1,12) as $number)
@@ -74,7 +74,50 @@
 @push('scripts')
 
 <script>
+    const circleElement = document.getElementById('circle');
+    const timerElement = document.getElementById('timer');
+    const winnerElement = document.getElementById('winner');
+    const betElement = document.getElementById('bet');
+    const resultElement = document.getElementById('result');
 
+    Echo.channel('game')
+        .listen('RemainingTimeChanged', (e) => {
+            timerElement.innerText = e.time;
+
+            circleElement.classList.add('refresh');
+
+            winnerElement.classList.add('d-none');
+
+            resultElement.innerText = '';
+            resultElement.classList.remove('text-success');
+            resultElement.classList.remove('text-danger');
+
+
+        })
+        .listen('WinnerNumberGenerated', (e) => {
+
+            circleElement.classList.remove('refresh');
+
+            let winner = e.number;
+            winnerElement.innerText = winner;
+            winnerElement.classList.remove('d-none');
+
+            let bet = betElement[betElement.selectedIndex].innerText
+
+            if (bet == winner){
+                resultElement.innerText = "You WIN";
+                resultElement.classList.add('text-success');
+            }
+            else{
+                resultElement.innerText = "You LOSE";
+                resultElement.classList.add('text-danger');
+            }
+
+
+
+
+
+})
 
 </script>
 

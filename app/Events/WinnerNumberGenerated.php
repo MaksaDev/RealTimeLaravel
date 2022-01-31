@@ -39,7 +39,7 @@ class WinnerNumberGenerated implements ShouldBroadcast
     public function broadcastOn()
     {
         
-       
+        
         return new Channel('game');
     }
 }
