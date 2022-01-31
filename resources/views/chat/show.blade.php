@@ -55,8 +55,7 @@
                             <ul id="users"
                                 class="list-unstyled overflow-auto text-info"
                                 style="height: 45vh;">
-                                <li>Test1</li>
-                                <li>Test1</li>
+                                
                             </ul>
                         </div>
 
@@ -75,7 +74,26 @@
 @push('scripts')
 
 <script>
-   
+   const usersElement = document.getElementById('users');
+
+   Echo.join('chat')
+        .here((users) =>{
+             users.forEach((user, index) => {
+                 let element = document.createElement('li');
+
+                 element.setAttribute('id', user.id);
+                 element.innerText = user.name;
+
+                 usersElement.appendChild(element);
+
+
+
+
+
+             })
+
+        })
+
 
 </script>
 
