@@ -29,8 +29,7 @@
                                     <ul id="messages"
                                         class="list-unstyled overflow-auto"
                                         style="height: 45vh">
-                                        <li>Test1: Hello</li>
-                                        <li>Test2 Hi there</li>
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -75,6 +74,7 @@
 
 <script>
    const usersElement = document.getElementById('users');
+   const messagesElement = document.getElementById('messages');
 
    Echo.join('chat')
         .here((users) =>{
@@ -103,10 +103,44 @@
             
             const element = document.getElementById(user.id) ;
             element.parentNode.removeChild(element);
+        })
+        .listen('MessageSent', (e) => {
 
+            let element = document.createElement('li');
+
+            element.innerText = e.user.name + ': ' +e.message;
+
+            messagesElement.appendChild(element);
+        })
+
+
+</script>
+
+
+<script>
+
+    const messageElement = document.getElementById('message');
+    const sendElement = document.getElementById('send');
+
+    sendElement.addEventListener('click' , (e) =>  {
+        e.preventDefault();
+
+        window.axios.post('/chat/message', {
+
+
+
+            message: messageElement.value,
+        });
+
+        messageElement.value = ''
 
 
     });
+
+
+
+
+    
 
 
 </script>
